@@ -1,0 +1,95 @@
+
+Testing constructors and constructor-like methods...
+>    Catch invalid length in packed constructor... success
+>      Message: Array length must be a multiple of m.
+>    Catch ragged input to default constructor... success
+>      Message: All rows must have the same length.
+>    Catch ragged input to constructWithCopy... success
+>      Message: All rows must have the same length.
+>    constructWithCopy... success
+>    identity... success
+
+Testing access methods...
+>    getRowDimension... success
+>    getColumnDimension... success
+>    getArray... success
+>    getArrayCopy... success
+>    getColumnPackedCopy... success
+>    getRowPackedCopy... success
+>    get(int,int)... OutofBoundsException... success
+>    get(int,int)... success
+>    getMatrix(int,int,int,int)... ArrayIndexOutOfBoundsException... success
+>    getMatrix(int,int,int,int)... success
+>    getMatrix(int,int,int[])... ArrayIndexOutOfBoundsException... success
+>    getMatrix(int,int,int[])... success
+>    getMatrix(int[],int,int)... ArrayIndexOutOfBoundsException... success
+>    getMatrix(int[],int,int)... success
+>    getMatrix(int[],int[])... ArrayIndexOutOfBoundsException... success
+>    getMatrix(int[],int[])... success
+>    set(int,int,double)... OutofBoundsException... success
+>    set(int,int,double)... success
+>    setMatrix(int,int,int,int,Matrix)... ArrayIndexOutOfBoundsException... success
+>    setMatrix(int,int,int,int,Matrix)... success
+>    setMatrix(int,int,int[],Matrix)... ArrayIndexOutOfBoundsException... success
+>    setMatrix(int,int,int[],Matrix)... success
+>    setMatrix(int[],int,int,Matrix)... ArrayIndexOutOfBoundsException... success
+>    setMatrix(int[],int,int,Matrix)... success
+>    setMatrix(int[],int[],Matrix)... ArrayIndexOutOfBoundsException... success
+>    setMatrix(int[],int[],Matrix)... success
+
+Testing array-like methods...
+>    minus conformance check... success
+>    minus... success
+>    minusEquals conformance check... success
+>    minusEquals... success
+>    plus conformance check... success
+>    plus... success
+>    plusEquals conformance check... success
+>    plusEquals... success
+>    uminus... success
+>    arrayLeftDivide conformance check... success
+>    arrayLeftDivide... success
+>    arrayLeftDivideEquals conformance check... success
+>    arrayLeftDivideEquals... success
+>    arrayRightDivide conformance check... success
+>    arrayRightDivide... success
+>    arrayRightDivideEquals conformance check... success
+>    arrayRightDivideEquals... success
+>    arrayTimes conformance check... success
+>    arrayTimes... success
+>    arrayTimesEquals conformance check... success
+>    arrayTimesEquals... success
+>    plus conformance check... success
+>    plus... success
+
+Testing I/O methods...
+>    print()/read()...success
+>    writeObject(Matrix)/readObject(Matrix)...success
+
+Testing linear algebra methods...
+>    transpose...success
+>    norm1...success
+>    normInf()...success
+>    normF...success
+>    trace()...success
+>    det()...success
+>    times(Matrix)...success
+>    times(Matrix)...success
+>    QRDecomposition...success
+>    SingularValueDecomposition...success
+>    rank()...success
+>    cond()...success
+>    LUDecomposition...success
+>    inverse()...success
+>    solve()...success
+>    CholeskyDecomposition...success
+>    CholeskyDecomposition solve()...success
+>    EigenvalueDecomposition (symmetric)...success
+>    EigenvalueDecomposition (nonsymmetric)...success
+
+Testing Eigenvalue; If this hangs, we've failed
+>    EigenvalueDecomposition (hang)...success
+
+TestMatrix completed.
+Total errors reported: 0
+Total warnings reported: 0

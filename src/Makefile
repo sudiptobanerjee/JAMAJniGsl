@@ -46,30 +46,30 @@ $(PACKAGE): $(JAVA_SRC)
 
 $(DYLIB_LAPACK1): $(C_SRC_LAPACK1)
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -shared -fPIC $(C_SRC_LAPACK1) -lgsl -lcblas -lm -o $(DYLIB_LAPACK1)
+	$(CC) $(CFLAGS) -shared -fPIC $(C_SRC_LAPACK1) -lgsl -lgslcblas -lm -o $(DYLIB_LAPACK1)
 
 $(DYLIB_LAPACK2): $(C_SRC_LAPACK2)
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -shared -fPIC $(C_SRC_LAPACK2) -lgsl -lcblas -lm -o $(DYLIB_LAPACK2)
+	$(CC) $(CFLAGS) -shared -fPIC $(C_SRC_LAPACK2) -lgsl -lgslcblas -lm -o $(DYLIB_LAPACK2)
 $(DYLIB_LAPACK3): $(C_SRC_LAPACK3)
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -shared -fPIC $(C_SRC_LAPACK3) -lgsl -lcblas -lm -o $(DYLIB_LAPACK3)
+	$(CC) $(CFLAGS) -shared -fPIC $(C_SRC_LAPACK3) -lgsl -lgslcblas -lm -o $(DYLIB_LAPACK3)
 
 $(DYLIB_LAPACK4): $(C_SRC_LAPACK4)
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -shared -fPIC $(C_SRC_LAPACK4) -lgsl -lcblas -lm -o $(DYLIB_LAPACK4)
+	$(CC) $(CFLAGS) -shared -fPIC $(C_SRC_LAPACK4) -lgsl -lgslcblas -lm -o $(DYLIB_LAPACK4)
 
 $(DYLIB_LAPACK5): $(C_SRC_LAPACK5)
 	@mkdir -p $(@D)
-	 $(CC) $(CFLAGS) -shared -fPIC $(C_SRC_LAPACK5) -lgsl -lcblas -lm -o $(DYLIB_LAPACK5)
+	 $(CC) $(CFLAGS) -shared -fPIC $(C_SRC_LAPACK5) -lgsl -lgslcblas -lm -o $(DYLIB_LAPACK5)
 
 $(DYLIB_BLAS): $(C_SRC_BLAS) 
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -shared -fPIC $(C_SRC_BLAS) -lgsl -lcblas -lm -o $(DYLIB_BLAS)
+	$(CC) $(CFLAGS) -shared -fPIC $(C_SRC_BLAS) -lgsl -lgslcblas -lm -o $(DYLIB_BLAS)
 
 $(DYLIB_RANDOM): $(C_SRC_RANDOM)
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -shared -fPIC $(C_SRC_RANDOM) -lgsl -lcblas -lm -o $(DYLIB_RANDOM)
+	$(CC) $(CFLAGS) -shared -fPIC $(C_SRC_RANDOM) -lgsl -lgslcblas -lm -o $(DYLIB_RANDOM)
 
 
 clean: 
