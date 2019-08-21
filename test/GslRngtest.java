@@ -59,15 +59,18 @@ public final class GslRngtest {
         System.out.println();
 
 	//inverwishart
-	n = 5;
-	p = 3;
-	double[] lll = {1,12,11,10,9,4,2,1,2,3,4,10,20,11,20,40,10,10,2,1};
+	n = 3;
+	p = 2;
+	int ii;
+	double[] lll = {10,1,1,10};
 	double[] result_inwi = new double [p * p];	
 	System.out.println("inverwishart()");	
+	for(ii = 0; ii<500; ii++){
 	JniGslRng.inverwishart(n, p, lll, result_inwi);
 	for(i=0; i<p*p; i++)
 		System.out.println(result_inwi[i]);
         System.out.println();
+	}
 
 	JniGslRng.free();
     }

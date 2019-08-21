@@ -368,6 +368,42 @@ JNIEXPORT void Java_JAMAJniGsl_Matrix_dtrsm
     
 }
 
+/* Elementwise */
 
+JNIEXPORT void Java_JAMAJniGsl_Matrix_EleMul
+(JNIEnv *env, jclass klass, jint n, jdoubleArray x, jdoubleArray y){
+    
+    /*  y = x .* y , result is stored in tempy*/
+    
+    double *xElems, *yElems;
+    xElems = (*env)-> GetDoubleArrayElements (env, x, NULL);
+    yElems = (*env)-> GetDoubleArrayElements (env, y, NULL);
+    assert(xElems && yElems);
+    
+    gsl_vector_view tempx=gsl_vector_view_array(xElems,n);
+    gsl_vector_view tempy=gsl_vector_view_array(yElems,n);
+    gsl_vector_mul( &tempy.vector, &tempx.vector);
+    
+    (*env)-> ReleaseDoubleArrayElements (env, y, yElems, 0); 
+    (*env)-> ReleaseDoubleArrayElements (env, x, xElems, JNI_ABORT);
+}
+
+JNIEXPORT void Java_JAMAJniGsl_Matrix_EleDiv
+(JNIEnv *env, jclass klass, jint n, jdoubleArray x, jdoubleArray y){
+    
+    /*  y = y ./ x , result is stored in tempy*/
+    
+    double *xElems, *yElems;
+    xElems = (*env)-> GetDoubleArrayElements (env, x, NULL);
+    yElems = (*env)-> GetDoubleArrayElements (env, y, NULL);
+    assert(xElems && yElems);
+    
+    gsl_vector_view tempx=gsl_vector_view_array(xElems,n);
+    gsl_vector_view tempy=gsl_vector_view_array(yElems,n);
+    gsl_vector_div( &tempy.vector, &tempx.vector);
+    
+    (*env)-> ReleaseDoubleArrayElements (env, y, yElems, 0); 
+    (*env)-> ReleaseDoubleArrayElements (env, x, xElems, JNI_ABORT);
+}
 
 

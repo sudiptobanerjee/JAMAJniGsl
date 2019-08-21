@@ -136,6 +136,7 @@ JNIEXPORT void JNICALL Java_JAMAJniGsl_JniGslRng_inverwishart
     int signum=1;
     gsl_matrix *work = gsl_matrix_alloc(p, p);
     gsl_matrix *inverse = gsl_matrix_alloc(p, p);
+    gsl_matrix *inverl = gsl_matrix_alloc(p,p);
     //gsl_rng *r;
 
     //T = gsl_rng_rand;
@@ -143,18 +144,25 @@ JNIEXPORT void JNICALL Java_JAMAJniGsl_JniGslRng_inverwishart
     //gsl_rng_set(r, time(NULL));
     gsl_rng_env_setup();
     gsl_matrix_view templ = gsl_matrix_view_array(lElems, p, p);
+
+    gsl_permutation *q= gsl_permutation_alloc(p);
+    gsl_linalg_LU_decomp(&templ.matrix, q, &signum);
+    gsl_linalg_LU_invert (&templ.matrix, q, inverl);
+    //gsl_permutation_free(qq);
+
     gsl_matrix_view tempresult = gsl_matrix_view_array(resultElems, p, p);
 
-    gsl_ran_wishart( r, n, &templ.matrix, inverse, work);
+    gsl_ran_wishart( r, n, inverl, inverse, work);
     //gsl_rng_free (r);
     gsl_matrix_free(work);
 
-    gsl_permutation *q= gsl_permutation_alloc(p);
+    //gsl_permutation *q= gsl_permutation_alloc(p);
 
     gsl_linalg_LU_decomp(inverse, q, &signum);
     gsl_linalg_LU_invert (inverse, q, &tempresult.matrix);
     gsl_permutation_free(q);
     gsl_matrix_free(inverse);
+    gsl_matrix_free(inverl);
 
     (*env)-> ReleaseDoubleArrayElements (env, jl, lElems, 0);
     (*env)-> ReleaseDoubleArrayElements (env, jresult, resultElems, 0);

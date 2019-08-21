@@ -486,9 +486,12 @@ public class Matrix implements Cloneable, java.io.Serializable {
     
     public Matrix plusEquals (Matrix B) {
         checkMatrixDimensions(B);
+        double[] a = this.getRowPackedCopy();
+        double[] b = B.getRowPackedCopy();
+        daxpy(m * n, 1, b, a);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                A[i][j] = A[i][j] + B.A[i][j];
+                A[i][j] = a[i*n+j];
             }
         }
         return this;
@@ -511,9 +514,12 @@ public class Matrix implements Cloneable, java.io.Serializable {
     
     public Matrix minusEquals (Matrix B) {
         checkMatrixDimensions(B);
+        double[] a = this.getRowPackedCopy();
+        double[] b = B.getRowPackedCopy();
+        daxpy(m * n, -1.0, b, a);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                A[i][j] = A[i][j] - B.A[i][j];
+                A[i][j] = a[i*n+j];
             }
         }
         return this;
@@ -527,13 +533,10 @@ public class Matrix implements Cloneable, java.io.Serializable {
     
     public Matrix arrayTimes (Matrix B) {
         checkMatrixDimensions(B);
-        Matrix X = new Matrix(m,n);
-        double[][] C = X.getArray();
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                C[i][j] = A[i][j] * B.A[i][j];
-            }
-        }
+        double[] a = this.getRowPackedCopy();
+        double[] b = B.getRowPackedCopy();
+        EleMul(m * n, b, a);
+        Matrix X = new Matrix (a , m, n);
         return X;
     }
     
@@ -546,9 +549,12 @@ public class Matrix implements Cloneable, java.io.Serializable {
     
     public Matrix arrayTimesEquals (Matrix B) {
         checkMatrixDimensions(B);
+        double[] a = this.getRowPackedCopy();
+        double[] b = B.getRowPackedCopy();
+        EleMul(m * n, b, a);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                A[i][j] = A[i][j] * B.A[i][j];
+                A[i][j] = a[i*n+j];
             }
         }
         return this;
@@ -561,13 +567,10 @@ public class Matrix implements Cloneable, java.io.Serializable {
     
     public Matrix arrayRightDivide (Matrix B) {
         checkMatrixDimensions(B);
-        Matrix X = new Matrix(m,n);
-        double[][] C = X.getArray();
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                C[i][j] = A[i][j] / B.A[i][j];
-            }
-        }
+        double[] a = this.getRowPackedCopy();
+        double[] b = B.getRowPackedCopy();
+        EleDiv(m * n, b, a);
+        Matrix X = new Matrix (a , m, n);
         return X;
     }
     
@@ -578,9 +581,12 @@ public class Matrix implements Cloneable, java.io.Serializable {
     
     public Matrix arrayRightDivideEquals (Matrix B) {
         checkMatrixDimensions(B);
+        double[] a = this.getRowPackedCopy();
+        double[] b = B.getRowPackedCopy();
+        EleDiv(m * n, b, a);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                A[i][j] = A[i][j] / B.A[i][j];
+                A[i][j] = a[i*n+j];
             }
         }
         return this;
@@ -593,13 +599,10 @@ public class Matrix implements Cloneable, java.io.Serializable {
     
     public Matrix arrayLeftDivide (Matrix B) {
         checkMatrixDimensions(B);
-        Matrix X = new Matrix(m,n);
-        double[][] C = X.getArray();
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                C[i][j] = B.A[i][j] / A[i][j];
-            }
-        }
+        double[] a = this.getRowPackedCopy();
+        double[] b = B.getRowPackedCopy();
+        EleDiv(m * n, a, b);
+        Matrix X = new Matrix (b , m, n);
         return X;
     }
     
@@ -610,9 +613,12 @@ public class Matrix implements Cloneable, java.io.Serializable {
     
     public Matrix arrayLeftDivideEquals (Matrix B) {
         checkMatrixDimensions(B);
+        double[] a = this.getRowPackedCopy();
+        double[] b = B.getRowPackedCopy();
+        EleDiv(m * n, a, b);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                A[i][j] = B.A[i][j] / A[i][j];
+                A[i][j] = b[i*n+j];
             }
         }
         return this;
@@ -1083,6 +1089,14 @@ public class Matrix implements Cloneable, java.io.Serializable {
         public final static int Right = 142;
     }
     
+    /* elementwise: */
+    public static native void EleMul( int n, double[] x, double[] y);
+    
+    public static native void EleDiv( int n, double[] x, double[] y);
+    
+    //public static native double ddot(int n, double[] x, double[] y);
+
+
     /* Level 1: */
     public static native void dscal( int n, double alpha, double[] x);
     
