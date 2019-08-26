@@ -191,7 +191,7 @@ JNIEXPORT void Java_JAMAJniGsl_Matrix_dsymv
 
 JNIEXPORT void Java_JAMAJniGsl_Matrix_dgemm
 (JNIEnv *env, jclass klass, jint TransA, jint TransB, jint m,
- jint n, jint k, jdouble alpha, jdoubleArray  A, jdoubleArray B,
+ jint n, jint l, jint k, jdouble alpha, jdoubleArray  A, jdoubleArray B,
  jdouble beta, jdoubleArray C){
     /* DGEMM  performs one of the matrix-matrix operations
      C := alpha*op( A )*op( B ) + beta*C,
@@ -206,18 +206,18 @@ JNIEXPORT void Java_JAMAJniGsl_Matrix_dgemm
     cElems = (*env)-> GetDoubleArrayElements (env,C,NULL);
     assert(aElems && bElems && cElems);
 
-    gsl_matrix_view tempa=gsl_matrix_view_array(aElems,m,k);
-    gsl_matrix_view tempb=gsl_matrix_view_array(bElems,k,n);
+    gsl_matrix_view tempa=gsl_matrix_view_array(aElems,m,n);
+    gsl_matrix_view tempb=gsl_matrix_view_array(bElems,l,k);
 
 
     if (TransA == jniNoTrans) { TA = jniNoTrans; nrow = m;}
-    else if (TransA == jniTrans) {TA = jniTrans; nrow = k;}
-    else if (TransA == jniConjTrans) {TA = jniConjTrans; nrow = k;}
+    else if (TransA == jniTrans) {TA = jniTrans; nrow = n;}
+    else if (TransA == jniConjTrans) {TA = jniConjTrans; nrow = n;}
     else {fprintf(stderr, "** Illegal TransA setting \n"); return;}
         
-    if (TransB == jniNoTrans) { TB = jniNoTrans; bcol = n;}
-    else if (TransB == jniTrans) { TB = jniTrans; bcol = k;}
-    else if (TransB == jniConjTrans) {TB = jniConjTrans; bcol = k;}
+    if (TransB == jniNoTrans) { TB = jniNoTrans; bcol = k;}
+    else if (TransB == jniTrans) { TB = jniTrans; bcol = l;}
+    else if (TransB == jniConjTrans) {TB = jniConjTrans; bcol = l;}
     else {fprintf(stderr, "** Illegal TransB setting \n"); return;}
 
     gsl_matrix_view tempc=gsl_matrix_view_array(cElems,nrow,bcol);                

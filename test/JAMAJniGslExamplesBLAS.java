@@ -214,7 +214,7 @@ public final class JAMAJniGslExamplesBLAS {
         //c = Cd
         //ldc = M
 
-        Matrix.dgemm(transA, transB, M, N, K, alphad, dA, Bd, betad, Cd);
+        Matrix.dgemm(transA, transB, M, K, K, N, alphad, dA, Bd, betad, Cd);
         RprintMatrix("Resulting C", Cd, M, N);
 
         //dtrmm

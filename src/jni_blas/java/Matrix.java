@@ -662,7 +662,7 @@ public class Matrix implements Cloneable, java.io.Serializable {
         double[] b = B.getRowPackedCopy();
         double[] c = new double[m * B.getColumnDimension()];
         dgemm( Matrix.TRANSPOSE.NoTrans, Matrix.TRANSPOSE.NoTrans,
-              m, B.getColumnDimension(), n, 1, a, b, 0, c);
+              m, n, B.getRowDimension(), B.getColumnDimension(), 1, a, b, 0, c);
         Matrix X = new Matrix(c, m, B.getColumnDimension());
         return X;
     }
@@ -696,7 +696,7 @@ public class Matrix implements Cloneable, java.io.Serializable {
         double[] b = B.getRowPackedCopy();
         double[] c = new double[nrow * bncol];
         dgemm( TransA, TransB,
-              m, B.n, n, 1, a, b, 0, c);
+              m, n, B.m, B.n, 1, a, b, 0, c);
         Matrix X = new Matrix(c, nrow, bncol);
         return X;
     }
@@ -1117,7 +1117,7 @@ public class Matrix implements Cloneable, java.io.Serializable {
     
     /* Level 3: */
     public static native void dgemm(int TransA, int TransB, int m,
-                                    int n, int k, double alpha, double[] A,
+                                    int n, int l, int k, double alpha, double[] A,
                                     double[] B, double beta, double[] C);
     
     public static native void dtrmm(int Side, int Uplo, int TransA,
