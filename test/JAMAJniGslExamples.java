@@ -110,7 +110,7 @@ public final class JAMAJniGslExamples {
         //TIMES with transpose option
         //
         System.out.println("\n##  Multiplication : C = AA' * BB'  ##");
-        C = AA.times(BB,notrans,notrans);
+        C = AA.times(BB,trans,trans);
         printMatrix("C = ", matrix_layout, C.getArray(), C.getRowDimension(), C.getColumnDimension());
         //
         //SCALAR

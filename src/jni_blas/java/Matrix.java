@@ -696,7 +696,7 @@ public class Matrix implements Cloneable, java.io.Serializable {
         double[] b = B.getRowPackedCopy();
         double[] c = new double[nrow * bncol];
         dgemm( TransA, TransB,
-              nrow, bncol, ncol, 1, a, b, 0, c);
+              m, B.n, n, 1, a, b, 0, c);
         Matrix X = new Matrix(c, nrow, bncol);
         return X;
     }
