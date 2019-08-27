@@ -48,9 +48,9 @@ public final class GslRngtest {
         System.out.println();
 
 	//wishart
-	double n = 5;
+	double n = 3;
 	int  p = 2;
-	double[] ll = {1,12,11,10,9,4,2,1,2,3,4,10,20,11,20,40,10,10,2,1};
+	double[] ll = {10,1,1,10};
 	double[] result_wi = new double [p * p];	
 	System.out.println("wishart()");	
 	JniGslRng.wishart(n, p, ll, result_wi);

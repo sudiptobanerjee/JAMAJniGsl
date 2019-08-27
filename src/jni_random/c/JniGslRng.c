@@ -109,6 +109,7 @@ JNIEXPORT void JNICALL Java_JAMAJniGsl_JniGslRng_wishart
     double *lElems = (*env)-> GetDoubleArrayElements (env, jl, NULL);
     double *resultElems = (*env)-> GetDoubleArrayElements (env, jresult, NULL);
     //const gsl_rng_type *T;
+    int i,j;
     gsl_matrix *work = gsl_matrix_alloc(p, p);
     //gsl_rng *r;
     //T = gsl_rng_rand;
@@ -117,6 +118,13 @@ JNIEXPORT void JNICALL Java_JAMAJniGsl_JniGslRng_wishart
     gsl_rng_env_setup();
     gsl_matrix_view templ = gsl_matrix_view_array(lElems, p, p);
     gsl_matrix_view tempresult = gsl_matrix_view_array(resultElems, p, p);
+    gsl_linalg_cholesky_decomp1(&templ.matrix);
+
+    for (i = 0; i < p; i++)
+        for (j = 0; j < p; j++)
+		if(i<j){
+			lElems[j + i * p] = 0;
+		}
 
     gsl_ran_wishart( r, n, &templ.matrix, &tempresult.matrix, work);
     //gsl_rng_free (r);
@@ -133,7 +141,7 @@ JNIEXPORT void JNICALL Java_JAMAJniGsl_JniGslRng_inverwishart
     double *lElems = (*env)-> GetDoubleArrayElements (env, jl, NULL);
     double *resultElems = (*env)-> GetDoubleArrayElements (env, jresult, NULL);
     //const gsl_rng_type *T;
-    int signum=1;
+    int signum=1,i,j;
     gsl_matrix *work = gsl_matrix_alloc(p, p);
     gsl_matrix *inverse = gsl_matrix_alloc(p, p);
     gsl_matrix *inverl = gsl_matrix_alloc(p,p);
@@ -145,21 +153,27 @@ JNIEXPORT void JNICALL Java_JAMAJniGsl_JniGslRng_inverwishart
     gsl_rng_env_setup();
     gsl_matrix_view templ = gsl_matrix_view_array(lElems, p, p);
 
-    gsl_permutation *q= gsl_permutation_alloc(p);
-    gsl_linalg_LU_decomp(&templ.matrix, q, &signum);
-    gsl_linalg_LU_invert (&templ.matrix, q, inverl);
-    //gsl_permutation_free(qq);
+    gsl_permutation *qq= gsl_permutation_alloc(p);
+    gsl_linalg_LU_decomp(&templ.matrix, qq, &signum);
+    gsl_linalg_LU_invert (&templ.matrix, qq, inverl); //compute the inverse of the L
+    gsl_permutation_free(qq);
 
     gsl_matrix_view tempresult = gsl_matrix_view_array(resultElems, p, p);
 
-    gsl_ran_wishart( r, n, inverl, inverse, work);
+    gsl_linalg_cholesky_decomp1(inverl);
+
+    for (i = 0; i < p; i++)
+        for (j = 0; j < p; j++)
+		if(i<j){
+			inverl->data[j + i * p] = 0;
+		}
+    gsl_ran_wishart( r, n, inverl, inverse, work);//generate wishart(L^-1,n)
     //gsl_rng_free (r);
     gsl_matrix_free(work);
 
-    //gsl_permutation *q= gsl_permutation_alloc(p);
-
+    gsl_permutation *q= gsl_permutation_alloc(p);
     gsl_linalg_LU_decomp(inverse, q, &signum);
-    gsl_linalg_LU_invert (inverse, q, &tempresult.matrix);
+    gsl_linalg_LU_invert (inverse, q, &tempresult.matrix);//compute the inverse of the result generated from wishart(L^-1,n)
     gsl_permutation_free(q);
     gsl_matrix_free(inverse);
     gsl_matrix_free(inverl);

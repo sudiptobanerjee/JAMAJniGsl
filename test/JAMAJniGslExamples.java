@@ -113,12 +113,12 @@ public final class JAMAJniGslExamples {
         C = AA.times(BB,trans,trans);
         printMatrix("C = ", matrix_layout, C.getArray(), C.getRowDimension(), C.getColumnDimension());
 
-	//double[][] XXX = {{1,2,3},{0,1,2},{2,1,3}};
-	//Matrix XXXX = new Matrix(XXX);
-	//Matrix XXXXX = XXXX.times(XXXX,trans,notrans);
+	double[][] XXX = {{1,2,3},{0,1,2}};
+	Matrix XXXX = new Matrix(XXX);
+	Matrix XXXXX = XXXX.times(XXXX,trans,notrans);
 	//Matrix XXXX = new Matrix(M,N);
 	//XXXX = AA.transpose().times(BB.transpose());
-        //printMatrix("C = ", matrix_layout, XXXXX.getArray(), XXXXX.getRowDimension(), XXXXX.getColumnDimension());
+        printMatrix("C = ", matrix_layout, XXXXX.getArray(), XXXXX.getRowDimension(), XXXXX.getColumnDimension());
 	//System.out.println(" OK");
         //
         //SCALAR
