@@ -1,5 +1,5 @@
 # JAMAJniGsl
-JAMAJniGsl is a JAVA package providing a java interface for GSL library and using the classes defined by JAMA Package. It's a tool for numerical linear algebra computations and random number generators. JAMAJniLite calls GSL libraries which require previous installation (Detailed installation instructions are listed below).
+JAMAJniGsl is a JAVA package providing a java interface for GSL library and using the classes defined by JAMA Package. It's a tool for numerical linear algebra computations and random number generators. JAMAJniG calls GSL libraries which require previous installation (Detailed installation instructions are listed below).
 
 
 Build Instructions
