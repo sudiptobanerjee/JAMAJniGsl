@@ -1,6 +1,5 @@
 package JAMAJniGsl;
 
-import JAMAJniGsl.*;
 import java.lang.*;
 /** QR Decomposition.
  <P>

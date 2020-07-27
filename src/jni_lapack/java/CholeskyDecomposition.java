@@ -1,6 +1,5 @@
 package JAMAJniGsl;
 
-import JAMAJniGsl.*;
 import java.lang.*;
 
 public class CholeskyDecomposition implements java.io.Serializable {
