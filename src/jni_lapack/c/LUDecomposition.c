@@ -32,7 +32,7 @@ JNIEXPORT int JNICALL Java_JAMAJniGsl_LUDecomposition_decomp
     return signum;
 }
 
-JNIEXPORT int JNICALL Java_JAMAJniGsl_LUDecomposition_slve
+JNIEXPORT void JNICALL Java_JAMAJniGsl_LUDecomposition_slve
   (JNIEnv *env, jclass obj, jint n, jdoubleArray ja, jdoubleArray jb, 
    jlongArray jp, jdoubleArray jx)
 {
@@ -63,7 +63,7 @@ JNIEXPORT int JNICALL Java_JAMAJniGsl_LUDecomposition_slve
     //gsl_permutation_free(p);
 }
 
-JNIEXPORT int JNICALL Java_JAMAJniGsl_LUDecomposition_invert
+JNIEXPORT void JNICALL Java_JAMAJniGsl_LUDecomposition_invert
   (JNIEnv *env, jclass obj, jint n, jdoubleArray ja, jdoubleArray jb, 
    jlongArray jp)
 {
