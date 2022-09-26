@@ -191,7 +191,7 @@ JNIEXPORT void Java_JAMAJniGsl_Matrix_dsymv
 
 JNIEXPORT void Java_JAMAJniGsl_Matrix_dgemm
 (JNIEnv *env, jclass klass, jint TransA, jint TransB, jint m,
- jint n, jint k, jdouble alpha, jdoubleArray  A, jdoubleArray B,
+ jint n, jint l, jint k, jdouble alpha, jdoubleArray  A, jdoubleArray B,
  jdouble beta, jdoubleArray C){
     /* DGEMM  performs one of the matrix-matrix operations
      C := alpha*op( A )*op( B ) + beta*C,
@@ -200,26 +200,27 @@ JNIEXPORT void Java_JAMAJniGsl_Matrix_dgemm
      an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix. */
     
     double *aElems, *bElems, *cElems;
-    int TA, TB;
+    int TA, TB, nrow, bcol;
     aElems = (*env)-> GetDoubleArrayElements (env,A,NULL);
     bElems = (*env)-> GetDoubleArrayElements (env,B,NULL);
     cElems = (*env)-> GetDoubleArrayElements (env,C,NULL);
     assert(aElems && bElems && cElems);
 
-    gsl_matrix_view tempa=gsl_matrix_view_array(aElems,m,k);
-    gsl_matrix_view tempb=gsl_matrix_view_array(bElems,k,n);
-    gsl_matrix_view tempc=gsl_matrix_view_array(cElems,m,n);        
+    gsl_matrix_view tempa=gsl_matrix_view_array(aElems,m,n);
+    gsl_matrix_view tempb=gsl_matrix_view_array(bElems,l,k);
 
-    if (TransA == jniNoTrans) { TA = jniNoTrans; }
-    else if (TransA == jniTrans) {TA = jniTrans; }
-    else if (TransA == jniConjTrans) {TA = jniConjTrans; }
+
+    if (TransA == jniNoTrans) { TA = jniNoTrans; nrow = m;}
+    else if (TransA == jniTrans) {TA = jniTrans; nrow = n;}
+    else if (TransA == jniConjTrans) {TA = jniConjTrans; nrow = n;}
     else {fprintf(stderr, "** Illegal TransA setting \n"); return;}
         
-    if (TransB == jniNoTrans) { TB = jniNoTrans; }
-    else if (TransB == jniTrans) { TB = jniTrans; }
-    else if (TransB == jniConjTrans) {TB = jniConjTrans; }
+    if (TransB == jniNoTrans) { TB = jniNoTrans; bcol = k;}
+    else if (TransB == jniTrans) { TB = jniTrans; bcol = l;}
+    else if (TransB == jniConjTrans) {TB = jniConjTrans; bcol = l;}
     else {fprintf(stderr, "** Illegal TransB setting \n"); return;}
-        
+
+    gsl_matrix_view tempc=gsl_matrix_view_array(cElems,nrow,bcol);                
     gsl_blas_dgemm(TA, TB, alpha, &tempa.matrix, &tempb.matrix, beta, &tempc.matrix);
     
     (*env)-> ReleaseDoubleArrayElements (env, C, cElems, 0);
@@ -368,6 +369,42 @@ JNIEXPORT void Java_JAMAJniGsl_Matrix_dtrsm
     
 }
 
+/* Elementwise */
 
+JNIEXPORT void Java_JAMAJniGsl_Matrix_EleMul
+(JNIEnv *env, jclass klass, jint n, jdoubleArray x, jdoubleArray y){
+    
+    /*  y = x .* y , result is stored in tempy*/
+    
+    double *xElems, *yElems;
+    xElems = (*env)-> GetDoubleArrayElements (env, x, NULL);
+    yElems = (*env)-> GetDoubleArrayElements (env, y, NULL);
+    assert(xElems && yElems);
+    
+    gsl_vector_view tempx=gsl_vector_view_array(xElems,n);
+    gsl_vector_view tempy=gsl_vector_view_array(yElems,n);
+    gsl_vector_mul( &tempy.vector, &tempx.vector);
+    
+    (*env)-> ReleaseDoubleArrayElements (env, y, yElems, 0); 
+    (*env)-> ReleaseDoubleArrayElements (env, x, xElems, JNI_ABORT);
+}
+
+JNIEXPORT void Java_JAMAJniGsl_Matrix_EleDiv
+(JNIEnv *env, jclass klass, jint n, jdoubleArray x, jdoubleArray y){
+    
+    /*  y = y ./ x , result is stored in tempy*/
+    
+    double *xElems, *yElems;
+    xElems = (*env)-> GetDoubleArrayElements (env, x, NULL);
+    yElems = (*env)-> GetDoubleArrayElements (env, y, NULL);
+    assert(xElems && yElems);
+    
+    gsl_vector_view tempx=gsl_vector_view_array(xElems,n);
+    gsl_vector_view tempy=gsl_vector_view_array(yElems,n);
+    gsl_vector_div( &tempy.vector, &tempx.vector);
+    
+    (*env)-> ReleaseDoubleArrayElements (env, y, yElems, 0); 
+    (*env)-> ReleaseDoubleArrayElements (env, x, xElems, JNI_ABORT);
+}
 
 
