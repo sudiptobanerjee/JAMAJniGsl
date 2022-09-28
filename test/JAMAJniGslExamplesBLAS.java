@@ -218,10 +218,10 @@ public final class JAMAJniGslExamplesBLAS {
         RprintMatrix("Resulting C", Cd, M, N);
 
 	// test case involving one of the product matrices being transposed
-	Cd = new double[4];
+	Cd = new double[6];
         transA = Matrix.TRANSPOSE.Trans;
         Matrix.dgemm(transA, transB, 2, 3, 2, 2, 1.0, dA, dotd, 0.0, Cd);
-        RprintMatrix("Resulting C", Cd, 2, 2);
+        RprintMatrix("Resulting C", Cd, 3, 2);
 
 
         //dtrmm
