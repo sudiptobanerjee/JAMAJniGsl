@@ -20,13 +20,13 @@ C_SRC_LAPACK4 = $(JNI_LAPACK_SRC)/c/EigenvalueDecomposition.c
 C_SRC_LAPACK5 = $(JNI_LAPACK_SRC)/c/SingularValueDecomposition.c
 C_SRC_BLAS = $(JNI_BLAS_SRC)/c/Matrix.c
 C_SRC_RANDOM = $(JNI_RANDOM_SRC)/c/JniGslRng.c
-DYLIB_LAPACK1 = $(JAVA_HOME)/lib/libgsl_LUDecomposition.so
-DYLIB_LAPACK2 = $(JAVA_HOME)/lib/libgsl_CholeskyDecomposition.so
-DYLIB_LAPACK3 = $(JAVA_HOME)/lib/libgsl_QRDecomposition.so
-DYLIB_LAPACK4 = $(JAVA_HOME)/lib/libgsl_EigenvalueDecomposition.so
-DYLIB_LAPACK5 = $(JAVA_HOME)/lib/libgsl_SingularValueDecomposition.so
-DYLIB_BLAS = $(JAVA_HOME)/lib/libgsl_Gsl.so
-DYLIB_RANDOM = $(JAVA_HOME)/lib/libgsl_random.so
+DYLIB_LAPACK1 = $(JAVA_HOME)/lib/libgsl_LUDecomposition.dylib
+DYLIB_LAPACK2 = $(JAVA_HOME)/lib/libgsl_CholeskyDecomposition.dylib
+DYLIB_LAPACK3 = $(JAVA_HOME)/lib/libgsl_QRDecomposition.dylib
+DYLIB_LAPACK4 = $(JAVA_HOME)/lib/libgsl_EigenvalueDecomposition.dylib
+DYLIB_LAPACK5 = $(JAVA_HOME)/lib/libgsl_SingularValueDecomposition.dylib
+DYLIB_BLAS = $(JAVA_HOME)/lib/libgsl_Gsl.dylib
+DYLIB_RANDOM = $(JAVA_HOME)/lib/libgsl_random.dylib
 
 	
 

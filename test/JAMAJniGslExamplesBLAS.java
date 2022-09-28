@@ -217,6 +217,13 @@ public final class JAMAJniGslExamplesBLAS {
         Matrix.dgemm(transA, transB, M, K, K, N, alphad, dA, Bd, betad, Cd);
         RprintMatrix("Resulting C", Cd, M, N);
 
+	// test case involving one of the product matrices being transposed
+	Cd = new double[4];
+        transA = Matrix.TRANSPOSE.Trans;
+        Matrix.dgemm(transA, transB, 2, 3, 2, 2, 1.0, dA, dotd, 0.0, Cd);
+        RprintMatrix("Resulting C", Cd, 2, 2);
+
+
         //dtrmm
         System.out.println();
         System.out.println("dtrmm: B = alpha * op(A) * B, or B = alpha * B * op(A), where A is a triangular matrix");
